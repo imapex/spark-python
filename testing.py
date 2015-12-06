@@ -87,8 +87,8 @@ class OnlineMessages(unittest.TestCase):
 
     def test_create_message(self):
         message = Message()
-        message.set_roomId(roomid)
-        message.set_text('test message from python sdk automated testing')
+        message.roomId = roomid
+        message.text = 'test message from python sdk automated testing'
         session.post(message.get_url(), message.get_json())
 
     def test_get_messages(self):
@@ -98,7 +98,7 @@ class OnlineMessages(unittest.TestCase):
         ret = []
         for item in resp.json()['items']:
             a = Message.from_json(item)
-            print a.get_text()
+            print a.text
             ret.append(a)
         return ret
 
@@ -107,8 +107,8 @@ class OnlineMessages(unittest.TestCase):
         for message in messages:
             try:
                 reply = Message()
-                reply.set_roomId(message.get_roomId())
-                reply.set_text('sdk received message {}'.format(message.get_text()))
+                reply.roomId = message.roomId
+                reply.text = 'sdk received message {}'.format(message.text)
                 session.post(reply.get_url(), reply.get_json())
 
             except UnicodeEncodeError:

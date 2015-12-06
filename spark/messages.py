@@ -10,17 +10,22 @@ class Message(object):
             self.attributes['text'] = None
             self.attributes['roomId'] = None
 
-    def set_text(self, val):
-        self.attributes['text'] = val
-
-    def get_text(self):
+    @property
+    def text(self):
         return self.attributes['text']
 
-    def set_roomId(self, val):
+    @text.setter
+    def text(self, val):
+        self.attributes['text'] = val
+
+    @property
+    def roomId(self):
+        return self.attributes['roomId']
+
+    @roomId.setter
+    def roomId(self, val):
         self.attributes['roomId'] = val
 
-    def get_roomId(self):
-        return self.attributes['roomId']
 
     def get_json(self):
         return json.dumps(self.attributes)
