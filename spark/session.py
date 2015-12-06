@@ -4,13 +4,14 @@ import logging
 
 logging.getLogger()
 
-class Session(object):
 
-    def __init__(self, token, url):
+class Session(object):
+    def __init__(self, url, token):
         self.base_url = url + '/v1'
 
         self.headers = {'Content-Type': 'application/json',
                         'Authorization': 'Bearer {}'.format(token)}
+
     def get(self, url):
         url = self.base_url + url
         resp = requests.get(url, headers=self.headers)
@@ -31,7 +32,3 @@ class Session(object):
 
         except requests.exceptions.ConnectionError:
             logging.error('Connection Timed out to %s' % self.base_url)
-
-
-
-
