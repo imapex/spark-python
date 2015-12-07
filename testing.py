@@ -93,6 +93,9 @@ class Online_03_Messages(unittest.TestCase):
         print 'get messages from room {}'.format(room.title)
         for msg in msgs:
             print msg.text
+
+    # this is a valid test, but generates too much noise for active development
+
     # def test_reply_to_message(self):
     #     messages = self.test_get_messages()
     #     for message in messages:
@@ -110,7 +113,14 @@ class Online_04_Webook(unittest.TestCase):
 
     def test_create_webhook(self):
         webhook = Webhook()
-        webhook.set_targetUrl('http://www.kevincorbin.net')
+        room = Room.get(session, name=roomname)
+        webhook.set_targetUrl('http://foo.net/api/v1')
+        webhook.set_filter('roomId={}'.format(room.id))
+        webhook.set_name('python sdk testing webhook')
+        webhook.set_resource('messages')
+        webhook.set_event('created')
+        resp = webhook.create(session)
+        self.assertTrue(resp.ok)
 
 class Online_05_TestCleanup(unittest.TestCase):
 
@@ -125,10 +135,11 @@ if __name__ == '__main__':
     offline = unittest.TestSuite()
     offline.addTest(OfflineRoom)
     online = unittest.TestSuite()
-    online.addTest(OnlineMessages)
-    online.addTest(OnlinePeople)
-    online.addTest(OnlineRoom)
-    online.addTest(OnlineWebook)
+    online.addTest(Online_01_Room)
+    online.addTest(Online_02_People)
+    online.addTest(Online_03_Messages)
+    online.addTest(Online_04_Webook)
+    online.addTest(Online_05_TestCleanup)
 
     full = unittest.TestSuite([online, offline])
 

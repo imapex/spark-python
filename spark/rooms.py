@@ -81,8 +81,8 @@ class Room(object):
 
     def get_messages(self, session):
         url = '/messages?roomId={}'.format(self.id)
-        print url
         resp = session.get(url)
+
         ret = []
         for msg in resp.json()['items']:
             obj = spark.messages.Message(attributes=msg)

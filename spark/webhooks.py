@@ -45,3 +45,32 @@ class Webhook(object):
 
     def get_json(self):
         return json.dumps(self.attributes)
+
+    @classmethod
+    def from_json(cls, obj):
+        instance = cls(attributes=obj)
+        return instance
+
+    @classmethod
+    def url(self):
+        return '/webhooks'
+
+    @classmethod
+    def get(cls, session):
+        items = session.get(cls.url()).json()['items']
+        ret = []
+        for i in items:
+            obj = cls.from_json(i)
+            ret.append(obj)
+        return ret
+
+    def create(self, session):
+        resp = session.post(Webhook.url(), self.get_json())
+        return resp
+
+    def delete(self, session):
+        url = self.get_url() + '/{}'.format(self.id)
+        resp = session.delete(url)
+        return resp
+
+
