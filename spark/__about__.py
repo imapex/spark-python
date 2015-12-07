@@ -19,7 +19,7 @@ __title__ = "spark-python"
 __summary__ = "Python Bindings for Cisco Spark API"
 __uri__ = "http://github.com/kecorbin/spark-python"
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 __author__ = "Cisco Systems, Inc."
 __email__ = "kecorbin@cisco.com"
