@@ -26,8 +26,7 @@ class Message(object):
     def roomId(self, val):
         self.attributes['roomId'] = val
 
-
-    def get_json(self):
+    def json(self):
         return json.dumps(self.attributes)
 
     @classmethod

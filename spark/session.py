@@ -32,3 +32,18 @@ class Session(object):
 
         except requests.exceptions.ConnectionError:
             logging.error('Connection Timed out to %s' % self.base_url)
+
+    def delete(self, url):
+        url = self.base_url + url
+
+        try:
+
+            resp = requests.delete(url, headers=self.headers)
+            logging.debug('Deleting {}'.format(url))
+            if resp.ok:
+                logging.debug(resp.text)
+
+            return resp
+
+        except requests.exceptions.ConnectionError:
+            logging.error('Connection Timed out to %s' % self.base_url)

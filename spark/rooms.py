@@ -16,9 +16,78 @@ class Room(object):
     def __str__(self):
         return self.attributes['title']
 
+    @property
+    def sipAddress(self):
+        return self.attributes['sipAddress']
+
+    @sipAddress.setter
+    def sipAddress(self, val):
+        self.attributes['sipAddress'] = val
+
+    @property
+    def created(self):
+        return self.attributes['created']
+
+    @created.setter
+    def created(self, val):
+        self.attributes['created'] = val
+    @property
+    def id(self):
+        return self.attributes['id']
+
+    @id.setter
+    def id(self, val):
+        self.attributes['id'] = val
+
+    @property
+    def title(self):
+        return self.attributes['title']
+
+    @title.setter
+    def title(self, val):
+        self.attributes['title'] = val
+
     @classmethod
     def get_url(cls):
         return '/rooms'
+
+    def create(self, session):
+        url = self.get_url()
+        resp = session.post(url, self.json())
+
+        #update attributes after creating
+        data = resp.json()
+        self.id = data['id']
+        self.created = data['created']
+        return resp
+
+    def delete(self, session):
+        url = self.get_url() + '/{}'.format(self.id)
+        resp = session.delete(url)
+        return resp
+
+    def json(self):
+        return json.dumps(self.attributes)
+
+    def send_message(self, session, msg):
+        if isinstance(msg, spark.messages.Message):
+            message = msg
+        else:
+            message = spark.messages.Message()
+            message.text = msg
+        message.roomId = self.id
+        resp = session.post('/messages', message.json())
+        return resp
+
+    def get_messages(self, session):
+        url = '/messages?roomId={}'.format(self.id)
+        print url
+        resp = session.get(url)
+        ret = []
+        for msg in resp.json()['items']:
+            obj = spark.messages.Message(attributes=msg)
+            ret.append(obj)
+        return ret
 
     @classmethod
     def get(cls, session, name=None):
@@ -31,7 +100,7 @@ class Room(object):
         rooms = json.loads(session.get(cls.get_url()).text)['items']
         for room in rooms:
             obj = cls.from_json(room)
-            if name == obj.get_title():
+            if name == obj.title:
                 return obj
             else:
                 ret.append(obj)
@@ -46,40 +115,3 @@ class Room(object):
         else:
             raise TypeError('Data must be str or dict')
         return obj
-
-    def set_sipAddress(self, val):
-        self.attributes['sipAddress'] = val
-
-    def get_sipAddress(self):
-        return self.attributes['sipAddress']
-
-    def set_created(self, val):
-        self.attributes['created'] = val
-
-    def get_created(self):
-        return self.attributes['created']
-
-    def set_id(self, val):
-        self.attributes['id'] = val
-
-    def get_id(self):
-        return self.attributes['id']
-
-    def set_title(self, val):
-        self.attributes['title'] = val
-
-    def get_title(self):
-        return self.attributes['title']
-
-    def get_json(self):
-        return json.dumps(self.attributes)
-
-    def send_message(self, session, msg):
-        if isinstance(msg, spark.messages.Message):
-            message = msg
-        else:
-            message = spark.messages.Message()
-            message.set_text(msg)
-        message.set_roomId(self.get_id())
-        resp = session.post('/messages', message.get_json())
-        return resp

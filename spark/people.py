@@ -1,10 +1,20 @@
 import json
+from types import MethodType
 
+
+def methodize(func, instance):
+    return MethodType(func, instance, instance.__class__)
 
 class Person(object):
+
+    def _instance_url(self, id):
+            return '/people/{}'.format(self.id)
+
     def __init__(self, attributes=None):
+
         if attributes:
             self._attributes = attributes
+
         else:
             self._attributes = dict()
             self._attributes['created'] = None
@@ -12,6 +22,14 @@ class Person(object):
             self._attributes['id'] = None
             self._attributes['avatar'] = None
             self._attributes['emails'] = None
+
+        if self._attributes['id']:
+            # Override classmethod if id is set
+            self.url = methodize(self._instance_url, self)
+
+    @classmethod
+    def url(cls):
+        return '/people'
 
     @property
     def created(self):
@@ -35,7 +53,7 @@ class Person(object):
         return self._attributes['id']
 
     @id.setter
-    def set_id(self, val):
+    def id(self, val):
         self._attributes['id'] = val
 
     @property
@@ -54,13 +72,9 @@ class Person(object):
     def emails(self, val):
         self._attributes['emails'] = val
 
-    def get_json(self):
+    def json(self):
         return json.dumps(self._attributes)
 
-
-    @classmethod
-    def get_url(cls):
-        return '/people'
 
     @classmethod
     def from_json(cls, obj):
@@ -83,7 +97,7 @@ class Person(object):
             if email:
                 query = 'email'
                 value = email
-            url = cls.get_url() + '?{}={}'.format(query, value)
+            url = cls.url() + '?{}={}'.format(query, value)
             resp = session.get(url)
             items = json.loads(resp.text)['items']
             if len(items) == 1:

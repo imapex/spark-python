@@ -10,23 +10,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .__about__ import ( # noqa
-    __author__, __copyright__, __email__, __license__, __summary__, __title__,
-    __uri__, __version__,
-)
-
-_about_exports = [
-    "__author__", "__copyright__", "__email__", "__license__", "__summary__",
-    "__title__", "__uri__", "__version__",
+__all__ = [
+    "__title__", "__summary__", "__uri__", "__version__", "__author__",
+    "__email__", "__license__", "__copyright__",
 ]
-import messages
-import people
-import rooms
-import session
 
-import inspect as _inspect
+__title__ = "spark-python"
+__summary__ = "Python Bindings for Cisco Spark API"
+__uri__ = "http://github.com/kecorbin/spark-python"
 
-__all__ = _about_exports + sorted(
-    name for name, obj in locals().items()
-    if not (name.startswith('_') or _inspect.ismodule(obj))
-)
+__version__ = "0.0.3"
+
+__author__ = "Cisco Systems, Inc."
+__email__ = "kecorbin@cisco.com"
+
+__license__ = "Apache License, Version 2.0"
+__copyright__ = "2015 %s" % __author__
