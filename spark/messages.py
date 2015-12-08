@@ -30,10 +30,6 @@ class Message(object):
         return json.dumps(self.attributes)
 
     @classmethod
-    def get_url(cls):
+    def url(cls):
         return '/messages'
 
-    @classmethod
-    def from_json(cls, obj):
-        instance = cls(attributes=obj)
-        return instance

@@ -48,11 +48,11 @@ class Room(object):
         self.attributes['title'] = val
 
     @classmethod
-    def get_url(cls):
+    def url(cls):
         return '/rooms'
 
     def create(self, session):
-        url = self.get_url()
+        url = self.url()
         resp = session.post(url, self.json())
 
         #update attributes after creating
@@ -62,7 +62,7 @@ class Room(object):
         return resp
 
     def delete(self, session):
-        url = self.get_url() + '/{}'.format(self.id)
+        url = self.url() + '/{}'.format(self.id)
         resp = session.delete(url)
         return resp
 
@@ -97,7 +97,7 @@ class Room(object):
         :return: list rooms available in the current session
         """
         ret = []
-        rooms = json.loads(session.get(cls.get_url()).text)['items']
+        rooms = json.loads(session.get(cls.url()).text)['items']
         for room in rooms:
             obj = cls.from_json(room)
             if name == obj.title:

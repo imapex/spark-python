@@ -59,6 +59,10 @@ class Online_01_Room(unittest.TestCase):
         resp = room.create(session)
         self.assertTrue(resp.ok)
 
+    def test_send_message_to_room(self):
+        room = Room.get(session, name=roomname)
+        resp = room.send_message(session, 'this is a str message')
+        self.assertTrue(resp.ok)
 
     def test_get_room_by_name(self):
         room = Room.get(session, name=roomname)
@@ -83,7 +87,7 @@ class Online_03_Messages(unittest.TestCase):
         room = Room.get(session, name=roomname)
         message.text = 'test message from python sdk automated testing'
         room.send_message(session, message)
-        resp = session.post(message.get_url(), message.json())
+        resp = session.post(message.url(), message.json())
         self.assertTrue(resp.ok)
 
     def test_get_messages(self):
@@ -121,6 +125,13 @@ class Online_04_Webook(unittest.TestCase):
         webhook.set_event('created')
         resp = webhook.create(session)
         self.assertTrue(resp.ok)
+
+
+    def test_get_webhooks(self):
+        webhooks = Webhook.get(session)
+        print webhooks
+        self.assertIsInstance(webhooks, list)
+
 
 class Online_05_TestCleanup(unittest.TestCase):
 

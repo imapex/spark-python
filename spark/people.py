@@ -5,10 +5,10 @@ from types import MethodType
 def methodize(func, instance):
     return MethodType(func, instance, instance.__class__)
 
-class Person(object):
 
+class Person(object):
     def _instance_url(self, id):
-            return '/people/{}'.format(self.id)
+        return '/people/{}'.format(self.id)
 
     def __init__(self, attributes=None):
 
@@ -34,7 +34,6 @@ class Person(object):
     @property
     def created(self):
         return self._attributes['created']
-
 
     @created.setter
     def created(self, val):
@@ -75,11 +74,15 @@ class Person(object):
     def json(self):
         return json.dumps(self._attributes)
 
-
     @classmethod
     def from_json(cls, obj):
-        instance = cls(attributes=obj)
-        return instance
+        if isinstance(obj, dict):
+            obj = cls(attributes=obj)
+        elif isinstance(obj, (str, unicode)):
+            obj = cls(attributes=json.loads(obj))
+        else:
+            raise TypeError('Data must be str or dict')
+        return obj
 
     @classmethod
     def find(cls, session, name=None, email=None):
