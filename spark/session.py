@@ -5,6 +5,7 @@ import logging
 logging.getLogger()
 
 
+
 class Session(object):
     def __init__(self, url, token):
         self.base_url = url + '/v1'
