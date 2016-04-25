@@ -13,5 +13,4 @@ message = Message()
 room = Room.get(session, name=roomname)
 message.text = 'test message from python sdk automated testing'
 room.send_message(session, message)
-resp = session.post(message.url(), message.json())
 
