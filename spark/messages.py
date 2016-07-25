@@ -9,6 +9,8 @@ class Message(object):
             self.attributes = dict()
             self.attributes['text'] = None
             self.attributes['roomId'] = None
+	    self.attributes['markdown'] = None
+	    self.attributes['html'] = None
 
     @property
     def text(self):
@@ -25,6 +27,22 @@ class Message(object):
     @roomId.setter
     def roomId(self, val):
         self.attributes['roomId'] = val
+
+    @property
+    def markdown(self):
+	self.attributes['markdown'] = val
+
+    @markdown.setter
+    def roomId(self, val):
+        self.attributes['markdown'] = val
+
+    @property
+    def html(self):
+        self.attributes['html'] = val
+
+    @html.setter
+    def roomId(self, val):
+        self.attributes['html'] = val
 
     def json(self):
         return json.dumps(self.attributes)

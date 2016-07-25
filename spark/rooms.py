@@ -69,10 +69,18 @@ class Room(object):
     def json(self):
         return json.dumps(self.attributes)
 
-    def send_message(self, session, msg):
+    def send_message(self, session, msg, frmt=None):
         if isinstance(msg, spark.messages.Message):
             message = msg
-        else:
+        elif frmt == 'html':
+            message = spark.messages.Message()
+            message.html = msg
+	    message.text = remove_tags(msg)
+	elif frmt == 'markdown':
+	    message = spark.messages.Message()
+	    message.markdown = msg
+	    message.text = msg;
+	else:
             message = spark.messages.Message()
             message.text = msg
         message.roomId = self.id
@@ -88,6 +96,10 @@ class Room(object):
             obj = spark.messages.Message(attributes=msg)
             ret.append(obj)
         return ret
+
+    #function to remove html tags
+    def remove_tags(text):
+    ''.join(xml.etree.ElementTree.fromstring(text).itertext())
 
     @classmethod
     def get(cls, session, name=None):
