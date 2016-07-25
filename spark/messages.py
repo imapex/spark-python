@@ -33,7 +33,7 @@ class Message(object):
 	self.attributes['markdown'] = val
 
     @markdown.setter
-    def roomId(self, val):
+    def html(self, val):
         self.attributes['markdown'] = val
 
     @property
@@ -41,7 +41,7 @@ class Message(object):
         self.attributes['html'] = val
 
     @html.setter
-    def roomId(self, val):
+    def html(self, val):
         self.attributes['html'] = val
 
     def json(self):

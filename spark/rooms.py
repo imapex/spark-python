@@ -75,7 +75,7 @@ class Room(object):
         elif frmt == 'html':
             message = spark.messages.Message()
             message.html = msg
-	    message.text = remove_tags(msg)
+	    message.text = msg
 	elif frmt == 'markdown':
 	    message = spark.messages.Message()
 	    message.markdown = msg
@@ -96,10 +96,6 @@ class Room(object):
             obj = spark.messages.Message(attributes=msg)
             ret.append(obj)
         return ret
-
-    #function to remove html tags
-    def remove_tags(text):
-    ''.join(xml.etree.ElementTree.fromstring(text).itertext())
 
     @classmethod
     def get(cls, session, name=None):
