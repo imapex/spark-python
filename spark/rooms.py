@@ -1,6 +1,6 @@
 import json
 import spark.messages
-
+import spark.people
 
 class Room(object):
     def __init__(self, attributes=None):
@@ -94,6 +94,15 @@ class Room(object):
         ret = []
         for msg in resp.json()['items']:
             obj = spark.messages.Message(attributes=msg)
+            ret.append(obj)
+        return ret
+
+    def get_members(self, session):
+        url = '/memberships?roomId={}'.format(self.id)
+        resp = session.get(url)
+        ret = []
+        for p in resp.json()['items']:
+            obj = spark.people.Person(attributes=p)
             ret.append(obj)
         return ret
 

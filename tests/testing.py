@@ -68,6 +68,13 @@ class Online_01_Room(unittest.TestCase):
         room = Room.get(session, name=roomname)
         self.assertIsInstance(room, Room)
 
+    def test_get_room_members(self):
+        rooms = Room.get(session)
+        self.assertIsInstance(rooms, list)
+        self.assertTrue(len(rooms) > 1)
+        members = rooms[0].get_members(session)
+        self.assertIsInstance(members, list)
+        self.assertTrue(len(rooms) > 1)
 
 class Online_02_People(unittest.TestCase):
     def test_get_self_info(self):
