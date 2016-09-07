@@ -13,7 +13,7 @@ class Session(object):
 
         if not url:
             try:
-                token = os.environ("SPARK_URL")
+                token = os.environ["SPARK_URL"]
             except KeyError:
                 pass
 

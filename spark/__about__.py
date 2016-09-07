@@ -19,7 +19,7 @@ __title__ = "spark-python"
 __summary__ = "Python Bindings for Cisco Spark API"
 __uri__ = "http://github.com/imapex/spark-python"
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
 
 __author__ = "Cisco Systems, Inc."
 __email__ = "imapex-admin@cisco.com"
