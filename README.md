@@ -1,5 +1,6 @@
 # spark-python
 
+[![Build Status](http://drone.green.browndogtech.com/api/badges/imapex/spark-python/status.svg)](http://drone.green.browndogtech.com/imapex/spark-python)
 
 # Description
 
