@@ -68,6 +68,7 @@ class Online_01_Room(unittest.TestCase):
         room = Room.get(session, name=roomname)
         self.assertIsInstance(room, Room)
 
+
     def test_get_room_members(self):
         rooms = Room.get(session)
         self.assertIsInstance(rooms, list)
@@ -151,13 +152,14 @@ class Online_05_TestCleanup(unittest.TestCase):
 
 if __name__ == '__main__':
     offline = unittest.TestSuite()
-    offline.addTest(OfflineRoom)
+    offline.addTest(unittest.makeSuite(OfflineRoom))
+
     online = unittest.TestSuite()
-    online.addTest(Online_01_Room)
-    online.addTest(Online_02_People)
-    online.addTest(Online_03_Messages)
-    online.addTest(Online_04_Webook)
-    online.addTest(Online_05_TestCleanup)
+    online.addTest(unittest.makeSuite(OfflineRoom))
+    online.addTest(unittest.makeSuite(Online_01_Room))
+    online.addTest(unittest.makeSuite(Online_03_Messages))
+    online.addTest(unittest.makeSuite(Online_04_Webook))
+    online.addTest(unittest.makeSuite(Online_05_TestCleanup))
 
     full = unittest.TestSuite([online, offline])
 
