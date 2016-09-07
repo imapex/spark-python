@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.drone-secrets.yml
 
 # C extensions
 *.so
