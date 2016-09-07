@@ -1,5 +1,5 @@
 """
-ACIToolkit Installer using setuptools
+spark-python Installer using setuptools
 """
 import os
 from setuptools import setup
