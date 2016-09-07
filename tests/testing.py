@@ -6,16 +6,24 @@ from spark.people import Person
 
 import unittest
 import json
+import os
+
+TOKEN = None
 
 try:
-    from apitoken import TOKEN
-except ImportError:
-    print
-    print('To run live tests, please create a apitoken.py file with the following variables filled in:')
-    print("""
-    TOKEN = '<YOUR API TOKEN>'
+    TOKEN = os.environ['SPARK_TOKEN']
+except KeyError:
+    pass
 
-    """)
+if TOKEN is None:
+    try:
+        from apitoken import TOKEN
+    except ImportError:
+        print
+        print('To run live tests, please create a apitoken.py file with the following variables filled in:')
+        print("""
+        TOKEN = '<YOUR API TOKEN>'
+        """)
 
 roomname = 'PYTHON SDK TESTING'
 URL = 'https://api.ciscospark.com'

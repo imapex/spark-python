@@ -1,13 +1,29 @@
 import json
 import requests
 import logging
+import os
 
 logging.getLogger()
 
 
 
 class Session(object):
-    def __init__(self, url, token):
+
+    def __init__(self, url=None, token=None):
+
+        if not url:
+            try:
+                token = os.environ("SPARK_URL")
+            except KeyError:
+                pass
+
+        if not token:
+            try:
+                token = os.environ("SPARK_TOKEN")
+            except KeyError:
+                pass
+
+
         self.base_url = url + '/v1'
 
         self.headers = {'Content-Type': 'application/json',
