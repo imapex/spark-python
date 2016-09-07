@@ -1,7 +1,7 @@
 from spark.rooms import Room
 from spark.session import Session
 
-token =  'YOUR TOKEN HERE'
+token = 'YOUR TOKEN HERE'
 roomname = 'YOUR ROOM NAME'
 
 url = 'https://api.ciscospark.com'

@@ -2,6 +2,7 @@ import json
 import spark.messages
 import spark.people
 
+
 class Room(object):
     def __init__(self, attributes=None):
         if attributes:
@@ -31,6 +32,7 @@ class Room(object):
     @created.setter
     def created(self, val):
         self.attributes['created'] = val
+
     @property
     def id(self):
         return self.attributes['id']
@@ -55,7 +57,7 @@ class Room(object):
         url = self.url()
         resp = session.post(url, self.json())
 
-        #update attributes after creating
+        # update attributes after creating
         data = resp.json()
         self.id = data['id']
         self.created = data['created']
@@ -72,17 +74,21 @@ class Room(object):
     def send_message(self, session, msg, frmt=None):
         if isinstance(msg, spark.messages.Message):
             message = msg
+
         elif frmt == 'html':
             message = spark.messages.Message()
             message.html = msg
-	    message.text = msg
-	elif frmt == 'markdown':
-	    message = spark.messages.Message()
-	    message.markdown = msg
-	    message.text = msg;
-	else:
+            message.text = msg
+
+        elif frmt == 'markdown':
+            message = spark.messages.Message()
+            message.markdown = msg
+            message.text = msg
+
+        else:
             message = spark.messages.Message()
             message.text = msg
+
         message.roomId = self.id
         resp = session.post('/messages', message.json())
         return resp

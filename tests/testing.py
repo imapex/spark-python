@@ -20,7 +20,8 @@ if TOKEN is None:
         from apitoken import TOKEN
     except ImportError:
         print
-        print('To run live tests, please create a apitoken.py file with the following variables filled in:')
+        print('To run live tests, please create a apitoken.py file with '
+              'the following variables filled in:')
         print("""
         TOKEN = '<YOUR API TOKEN>'
         """)
@@ -36,7 +37,7 @@ session = Session(URL, TOKEN)
 class OfflineRoom(unittest.TestCase):
 
     testroom = {
-                "id": "Y2lzY29zcGFyazovL3VzL1JPT00vYmJjZWIxYWQtNDNmMS0zYjU4LTkxNDctZjE0YmIwYzRkMTU0",
+                "id": "Y2lzY29zcGFyazovL3VzL1JPT00vYmJjZWIxYWQtNDNmMS0zYjU4LTkxNDctZjE0YmIwYzRkMTU0",  # noqa
                 "title": "Project Unicorn - Sprint 0",
                 "sipAddress": "8675309@ciscospark.com",
                 "created": "2015-10-18T14:26:16+00:00"
@@ -54,7 +55,6 @@ class OfflineRoom(unittest.TestCase):
 
 
 class Online_01_Room(unittest.TestCase):
-
 
     def test_get_all_rooms(self):
         rooms = Room.get(session)
@@ -76,7 +76,6 @@ class Online_01_Room(unittest.TestCase):
         room = Room.get(session, name=roomname)
         self.assertIsInstance(room, Room)
 
-
     def test_get_room_members(self):
         rooms = Room.get(session)
         self.assertIsInstance(rooms, list)
@@ -84,6 +83,7 @@ class Online_01_Room(unittest.TestCase):
         members = rooms[0].get_members(session)
         self.assertIsInstance(members, list)
         self.assertTrue(len(rooms) > 1)
+
 
 class Online_02_People(unittest.TestCase):
     def test_get_self_info(self):
@@ -126,7 +126,8 @@ class Online_03_Messages(unittest.TestCase):
     #             session.post(reply.get_url(), reply.get_json())
     #
     #         except UnicodeEncodeError:
-    #             raise UnicodeEncodeError('Recieved Unicode error posting: {}'.format(reply))
+    #             raise UnicodeEncodeError('Recieved Unicode '
+    #                                      'error posting: {}'.format(reply))
 
 
 class Online_04_Webook(unittest.TestCase):
@@ -142,7 +143,6 @@ class Online_04_Webook(unittest.TestCase):
         resp = webhook.create(session)
         self.assertTrue(resp.ok)
 
-
     def test_get_webhooks(self):
         webhooks = Webhook.get(session)
         print webhooks
@@ -155,7 +155,6 @@ class Online_05_TestCleanup(unittest.TestCase):
 
         room = Room.get(session, name=roomname)
         room.delete(session)
-
 
 
 if __name__ == '__main__':

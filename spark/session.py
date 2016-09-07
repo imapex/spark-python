@@ -1,10 +1,8 @@
-import json
 import requests
 import logging
 import os
 
 logging.getLogger()
-
 
 
 class Session(object):
@@ -23,9 +21,7 @@ class Session(object):
             except KeyError:
                 pass
 
-
         self.base_url = url + '/v1'
-
         self.headers = {'Content-Type': 'application/json',
                         'Authorization': 'Bearer {}'.format(token)}
 

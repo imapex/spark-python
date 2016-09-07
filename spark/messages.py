@@ -9,8 +9,8 @@ class Message(object):
             self.attributes = dict()
             self.attributes['text'] = None
             self.attributes['roomId'] = None
-	    self.attributes['markdown'] = None
-	    self.attributes['html'] = None
+            self.attributes['markdown'] = None
+            self.attributes['html'] = None
 
     @property
     def text(self):
@@ -30,15 +30,15 @@ class Message(object):
 
     @property
     def markdown(self):
-	self.attributes['markdown'] = val
+        return self.attributes['markdown']
 
     @markdown.setter
-    def html(self, val):
+    def markdown(self, val):
         self.attributes['markdown'] = val
 
     @property
     def html(self):
-        self.attributes['html'] = val
+        return self.attributes['html']
 
     @html.setter
     def html(self, val):
@@ -50,4 +50,3 @@ class Message(object):
     @classmethod
     def url(cls):
         return '/messages'
-

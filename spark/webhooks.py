@@ -72,5 +72,3 @@ class Webhook(object):
         url = self.get_url() + '/{}'.format(self.id)
         resp = session.delete(url)
         return resp
-
-
