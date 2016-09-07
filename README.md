@@ -59,7 +59,7 @@ We use flake 8 to lint our code. Please keep the repository clean by running:
 
 ## Testing
 
-The IMAPEX team attempts to have unittests with  100% code coverage. The main test suite is located in [./tests/testing.py](/.tests/testing.py)
+The IMAPEX team attempts to have unittests with  100% code coverage. The main test suite is located in [./tests/testing.py](./tests/testing.py)
 You will need to provide an API token
 
 The tests are can be run with the following command
