@@ -135,18 +135,27 @@ class Online_04_Webook(unittest.TestCase):
     def test_create_webhook(self):
         webhook = Webhook()
         room = Room.get(session, name=roomname)
-        webhook.set_targetUrl('http://foo.net/api/v1')
-        webhook.set_filter('roomId={}'.format(room.id))
-        webhook.set_name('python sdk testing webhook')
-        webhook.set_resource('messages')
-        webhook.set_event('created')
-        resp = webhook.create(session)
-        self.assertTrue(resp.ok)
+        webhook.targetUrl ='http://foo.net/api/v1'
+        webhook.filter = 'roomId={}'.format(room.id)
+        webhook.name = 'python sdk testing webhook'
+        webhook.resource = 'messages'
+        webhook.event = 'created'
+        webhook = webhook.create(session)
+        self.assertIsInstance(webhook, Webhook)
 
     def test_get_webhooks(self):
         webhooks = Webhook.get(session)
         print webhooks
         self.assertIsInstance(webhooks, list)
+
+    def test_delete_webhook(self):
+        webhooks = Webhook.get(session)
+        for wh in webhooks:
+            if wh.name == 'python sdk testing webhook':
+                resp = wh.delete(session)
+                self.assertTrue(resp.ok)
+
+
 
 
 class Online_05_TestCleanup(unittest.TestCase):

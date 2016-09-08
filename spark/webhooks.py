@@ -7,41 +7,57 @@ class Webhook(object):
             self.attributes = attributes
         else:
             self.attributes = dict()
+            self.attributes['id'] = None
             self.attributes['event'] = None
             self.attributes['filter'] = None
             self.attributes['resource'] = None
             self.attributes['name'] = None
             self.attributes['targetUrl'] = None
 
-    def set_event(self, val):
-        self.attributes['event'] = val
+    @property
+    def id(self):
+        return self.attributes['id']
 
-    def get_event(self):
+    @property
+    def event(self):
         return self.attributes['event']
 
-    def set_filter(self, val):
-        self.attributes['filter'] = val
+    @event.setter
+    def event(self, val):
+        self.attributes['event'] = val
 
-    def get_filter(self):
+    @property
+    def filter(self):
         return self.attributes['filter']
 
-    def set_resource(self, val):
-        self.attributes['resource'] = val
+    @filter.setter
+    def filter(self, val):
+        self.attributes['filter'] = val
 
-    def get_resource(self):
+    @property
+    def resource(self):
         return self.attributes['resource']
 
-    def set_name(self, val):
-        self.attributes['name'] = val
+    @resource.setter
+    def resource(self, val):
+        self.attributes['resource'] = val
 
-    def get_name(self):
+    @property
+    def name(self):
         return self.attributes['name']
 
-    def set_targetUrl(self, val):
+    @name.setter
+    def name(self, name):
+        self.attributes['name'] = name
+
+    @property
+    def targetUrl(self):
+        return self.attributes['targetUrl']
+
+    @targetUrl.setter
+    def targetUrl(self, val):
         self.attributes['targetUrl'] = val
 
-    def get_targetUrl(self):
-        return self.attributes['targetUrl']
 
     def get_json(self):
         return json.dumps(self.attributes)
@@ -66,9 +82,10 @@ class Webhook(object):
 
     def create(self, session):
         resp = session.post(Webhook.url(), self.get_json())
-        return resp
+        obj = Webhook.from_json(resp.json())
+        return obj
 
     def delete(self, session):
-        url = self.get_url() + '/{}'.format(self.id)
+        url = self.url() + '/{}'.format(self.id)
         resp = session.delete(url)
         return resp
