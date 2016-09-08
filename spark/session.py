@@ -17,7 +17,7 @@ class Session(object):
 
         if not token:
             try:
-                token = os.environ("SPARK_TOKEN")
+                token = os.environ["SPARK_TOKEN"]
             except KeyError:
                 pass
 
