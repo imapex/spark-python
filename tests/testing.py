@@ -3,7 +3,7 @@ from spark.rooms import Room
 from spark.session import Session
 from spark.webhooks import Webhook
 from spark.people import Person
-
+from spark.teams import Team
 import unittest
 import json
 import os
@@ -84,6 +84,20 @@ class Online_01_Room(unittest.TestCase):
         self.assertIsInstance(members, list)
         self.assertTrue(len(rooms) > 1)
 
+    def test_get_room_info(self):
+        room = Room.get(session)[0]
+        self.assertIsInstance(room.title, unicode)
+        self.assertIsInstance(room.created, unicode)
+
+
+    def test_delete_room(self):
+        rooms = Team.get(session)
+        for r in rooms:
+            if r.name == 'PYTHON SDK TESTING':
+                resp = r.delete(session)
+                self.assertTrue(resp.ok)
+
+
 
 class Online_02_People(unittest.TestCase):
     def test_get_self_info(self):
@@ -155,13 +169,53 @@ class Online_04_Webook(unittest.TestCase):
                 resp = wh.delete(session)
                 self.assertTrue(resp.ok)
 
+    def test_get_webhook_info(self):
+        webhooks = Webhook.get(session)
+        for wh in webhooks:
+            print wh.event, wh.filter, wh.resource, wh.targetUrl
+
+
+class Online_05_Teams(unittest.TestCase):
+
+    def test_create_get_team_by_name(self):
+        team = Team()
+        team.name = 'PYTHON SDK TEST TEAM'
+        team = team.create(session)
+        self.assertIsInstance(team, Team)
+
+        get = team.get(session, team.name)
+        self.assertIsInstance(get, Team)
+
+
+    def test_get_all_teams(self):
+        teams = Team.get(session)
+        self.assertIsInstance(teams, list)
+
+    def test_create_team_room(self):
+        team = Team()
+        team.name = 'PYTHON SDK TEST TEAM'
+        team = team.create(session)
+        self.assertIsInstance(team, Team)
+        print team.id
+
+        room = Room()
+        room.title = "PYTHON SDK TEAM ROOM"
+        room.teamId = team.id
+        resp = room.create(session)
+        self.assertTrue(resp.ok)
+
+    def test_delete_team(self):
+        teams = Team.get(session)
+        for t in teams:
+            if t.name == 'PYTHON SDK TEST TEAM':
+                resp = t.delete(session)
+                self.assertTrue(resp.ok)
 
 
 
-class Online_05_TestCleanup(unittest.TestCase):
+class Online_99_TestCleanup(unittest.TestCase):
 
     def test_cleanup_after_testing(self):
-
         room = Room.get(session, name=roomname)
         room.delete(session)
 
@@ -175,7 +229,8 @@ if __name__ == '__main__':
     online.addTest(unittest.makeSuite(Online_01_Room))
     online.addTest(unittest.makeSuite(Online_03_Messages))
     online.addTest(unittest.makeSuite(Online_04_Webook))
-    online.addTest(unittest.makeSuite(Online_05_TestCleanup))
+    online.addTest(unittest.makeSuite(Online_05_Teams))
+    online.addTest(unittest.makeSuite(Online_99_TestCleanup))
 
     full = unittest.TestSuite([online, offline])
 

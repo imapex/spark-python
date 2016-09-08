@@ -1,6 +1,7 @@
 import json
 import spark.messages
 import spark.people
+import spark.teams
 
 
 class Room(object):
@@ -13,6 +14,7 @@ class Room(object):
             self.attributes['created'] = None
             self.attributes['id'] = None
             self.attributes['title'] = None
+            self.attributes['teamId'] = None
 
     def __str__(self):
         return self.attributes['title']
@@ -48,6 +50,20 @@ class Room(object):
     @title.setter
     def title(self, val):
         self.attributes['title'] = val
+
+    @property
+    def teamId(self):
+        return self.attributes['teamId']
+
+    @teamId.setter
+    def teamId(self, val):
+        """
+        :param val: string or Team instance
+        """
+        if isinstance(val, spark.teams.Team):
+            self.attributes['teamId'] = val.id
+        else:
+            self.attributes['teamId'] = val
 
     @classmethod
     def url(cls):
